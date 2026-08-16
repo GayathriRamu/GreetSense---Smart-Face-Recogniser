@@ -6,12 +6,9 @@
 
 ## Overview
 
-GreetSense is a real-time facial recognition system that identifies individuals from a live video feed and verifies their identity using an ensemble of two independent deep learning models. 
-Rather than relying on a single embedding model — which can behave unpredictably depending on lighting, angle, or image quality — GreetSense cross-validates identity using **FaceNet** and **ArcFace** in parallel, with per-model confidence thresholds tuned to each model's distance distribution.
+GreetSense is a real-time facial recognition system that identifies individuals from a live video feed and verifies their identity using an ensemble of two independent deep learning models. Rather than relying on a single embedding model, which can behave unpredictably depending on lighting, angle, or image quality, GreetSense cross-validates identity using **FaceNet** and **ArcFace** in parallel, with per-model confidence thresholds tuned to each model's own distance distribution.
 
-The system was built to explore a practical question in applied computer vision: *how do you make a real-time recognition pipeline reliable enough to trust, given that any single model's confidence can be noisy frame-to-frame?* <br>
-
-The answer implemented here combines model ensembling, temporal smoothing across frames, and a built-in evaluation harness to measure and compare model behavior empirically rather than assuming it.
+The system was built around a practical question in applied computer vision: *how do you make a real-time recognition pipeline reliable enough to trust, given that any single model's confidence can be noisy frame-to-frame?* The approach implemented here combines model ensembling, temporal smoothing across frames, and a built-in evaluation harness so model behavior can be measured directly rather than assumed.
 
 ## How It Works
 
@@ -44,7 +41,7 @@ GreetSense includes a live evaluation mode that computes, per model, in real tim
 - Confusion matrix
 - Average inference latency
 
-This surfaced a concrete finding during testing: **ArcFace consistently outperformed FaceNet in accuracy and threshold stability** under identical conditions, while FaceNet's wider distance distribution made it more sensitive to threshold placement. This kind of empirical, side-by-side model comparison — rather than trusting a single model's reported benchmark numbers — is the core reason the evaluation module exists.
+This turns model comparison into something empirical rather than assumed — instead of trusting a single reported benchmark figure, the system lets you observe how each model actually performs under your own conditions, and adjust thresholds or model choice accordingly.
 
 ## Tech Stack
 
